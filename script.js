@@ -1,153 +1,214 @@
-const canvas1 = document.getElementById('gameCanvas1');
-const canvas2 = document.getElementById('gameCanvas2');
-const ctx1 = canvas1.getContext('2d');
-const ctx2 = canvas2.getContext('2d');
+let dom_replay = document.querySelector("#replay");
+let dom_score1 = document.querySelector("#score1");
+let dom_score2 = document.querySelector("#score2");
+let dom_canvas1 = document.querySelector("#canvas1");
+let dom_canvas2 = document.querySelector("#canvas2");
+let CTX1 = dom_canvas1.getContext("2d");
+let CTX2 = dom_canvas2.getContext("2d");
+
+const W = (dom_canvas1.width = dom_canvas2.width = 400);
+const H = (dom_canvas1.height = dom_canvas2.height = 400);
+
+let snakes = [],
+    food1,
+    food2,
+    cells = 20,
+    isGameOver = false,
+    gameStarted = false; // Variable para controlar el inicio del juego
+
+let score1 = 0; // Inicializar score1
+let score2 = 0; // Inicializar score2
+let gameInterval; // Variable para almacenar el ID del intervalo
+
+// Agregar botones de inicio y reinicio
 const startButton = document.getElementById('startButton');
+const restartButton = document.getElementById('restartButton');
 
-let snake1 = [{ x: 10, y: 10 }];
-let snake2 = [{ x: 10, y: 10 }];
-let food1 = { x: 15, y: 15 };
-let food2 = { x: 20, y: 20 };
-let score1 = 0;
-let score2 = 0;
-let direction1 = { x: 1, y: 0 };
-let direction2 = { x: 1, y: 0 };
-let gameOver = false;
-let gameStarted = false;
-
-// Función principal de dibujo
-function draw() {
-    if (!gameStarted || gameOver) return; // Solo dibuja si el juego ha comenzado y no ha terminado
-
-    ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
-    ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
-
-    // Dibuja las serpientes y la comida para ambos jugadores
-    drawSnake(ctx1, snake1, 'green');
-    drawSnake(ctx2, snake2, 'blue');
-    drawFood(ctx1, food1);
-    drawFood(ctx2, food2);
-
-    // Actualiza la posición de las serpientes y verifica colisiones
-    updateSnake(snake1, direction1);
-    updateSnake(snake2, direction2);
-    checkCollision(snake1, food1, 1);
-    checkCollision(snake2, food2, 2);
-    checkWallCollision(snake1);
-    checkWallCollision(snake2);
-
-    // Muestra el mensaje de Game Over si el juego termina
-    if (gameOver) {
-        document.getElementById('resultMessage').style.display = 'block';
-        document.getElementById('winnerText').innerText = score1 > score2 ? 'Jugador 1 gana!' : 'Jugador 2 gana!';
-    }
-}
-
-// Función para dibujar la serpiente
-function drawSnake(ctx, snake, color) {
-    ctx.fillStyle = color;
-    snake.forEach(segment => ctx.fillRect(segment.x * 10, segment.y * 10, 10, 10));
-}
-
-// Función para dibujar la comida
-function drawFood(ctx, food) {
-    ctx.fillStyle = 'red';
-    ctx.fillRect(food.x * 10, food.y * 10, 10, 10);
-}
-
-// Resto de las funciones
-function updateSnake(snake, direction) {
-    const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
-    snake.unshift(head);
-}
-
-function checkCollision(snake, food, player) {
-    if (snake[0].x === food.x && snake[0].y === food.y) {
-        if (player === 1) {
-            score1++;
-            document.getElementById('score1').innerText = `Puntuación: ${score1}`;
-        } else {
-            score2++;
-            document.getElementById('score2').innerText = `Puntuación: ${score2}`;
+let helpers = {
+    Vec: class {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
         }
-        food.x = Math.floor(Math.random() * (canvas1.width / 10));
-        food.y = Math.floor(Math.random() * (canvas1.height / 10));
-    } else {
-        snake.pop();
+        add(v) {
+            this.x += v.x;
+            this.y += v.y;
+            return this;
+        }
+    },
+    isCollision(v1, v2) {
+        return v1.x === v2.x && v1.y === v2.y;
+    },
+    drawGrid(ctx) {
+        ctx.lineWidth = 1.1;
+        ctx.strokeStyle = "#232332";
+        for (let i = 1; i < cells; i++) {
+            let f = (W / cells) * i;
+            ctx.beginPath();
+            ctx.moveTo(f, 0);
+            ctx.lineTo(f, H);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(0, f);
+            ctx.lineTo(W, f);
+            ctx.stroke();
+            ctx.closePath();
+        }
     }
-}
+};
 
-function checkWallCollision(snake) {
-    const head = snake[0];
-    if (head.x < 0 || head.x >= canvas1.width / 10 || head.y < 0 || head.y >= canvas1.height / 10) {
-        gameOver = true;
+// Almacenar la dirección de cada serpiente
+let directions = {
+    player1: { x: 0, y: 0 },
+    player2: { x:  0, y: 0 }
+};
+
+let KEY = {
+    listen() {
+        addEventListener("keydown", (e) => {
+            if (!gameStarted) return; // Ignora los controles si el juego no ha comenzado
+
+            // Player 1 controls
+            if (e.key === "ArrowUp" && directions.player1.y === 0) {
+                directions.player1 = { x: 0, y: -1 };
+            }
+            if (e.key === "ArrowDown" && directions.player1.y === 0) {
+                directions.player1 = { x: 0, y: 1 };
+            }
+            if (e.key === "ArrowLeft" && directions.player1.x === 0) {
+                directions.player1 = { x: -1, y: 0 };
+            }
+            if (e.key === "ArrowRight" && directions.player1.x === 0) {
+                directions.player1 = { x: 1, y: 0 };
+            }
+
+            // Player 2 controls
+            if (e.key === "w" && directions.player2.y === 0) {
+                directions.player2 = { x: 0, y: -1 };
+            }
+            if (e.key === "s" && directions.player2.y === 0) {
+                directions.player2 = { x: 0, y: 1 };
+            }
+            if (e.key === "a" && directions.player2.x === 0) {
+                directions.player2 = { x: -1, y: 0 };
+            }
+            if (e.key === "d" && directions.player2.x === 0) {
+                directions.player2 = { x: 1, y: 0 };
+            }
+        }, false);
     }
-}
-
-// Control de movimiento de las serpientes
-document.addEventListener('keydown', (event) => {
-    if (!gameStarted) return; // Ignora los controles si el juego no ha comenzado
-
-    switch (event.key) {
-        case 'ArrowUp':
-            if (direction1.y === 0) direction1 = { x: 0, y: -1 };
-            break;
-        case 'ArrowDown':
-            if (direction1.y === 0) direction1 = { x: 0, y: 1 };
-            break;
-        case 'ArrowLeft':
-            if (direction1.x === 0) direction1 = { x: -1, y: 0 };
-            break;
-        case 'ArrowRight':
-            if (direction1.x === 0) direction1 = { x: 1, y: 0 };
-            break;
-        // Controles para el jugador 2 (WASD)
-        case 'w':
-            if (direction2.y === 0) direction2 = { x: 0, y: -1 };
-            break;
-        case 's':
-            if (direction2.y === 0) direction2 = { x: 0, y: 1 };
-            break;
-        case 'a':
-            if (direction2.x === 0) direction2 = { x: -1, y: 0 };
-            break;
-        case 'd':
-            if (direction2.x === 0) direction2 = { x: 1, y: 0 };
-            break;
-    }
-});
-
-// Iniciar el juego al hacer clic en el botón o al presionar "Espacio"
-startButton.addEventListener('click', startGame);
-document.addEventListener('keydown', (event) => {
-    if (event.key === ' ') startGame();
-});
+};
 
 // Función para iniciar el juego
 function startGame() {
     if (gameStarted) return; // Evita reiniciar si el juego ya comenzó
 
     gameStarted = true;
-    document.getElementById('resultMessage').style.display = 'none';
-    setInterval(draw, 100); // Inicia el bucle de juego
-}
-
-// Reiniciar el juego
-document.getElementById('restartButton').addEventListener('click', () => {
-    snake1 = [{ x: 10, y: 10 }];
-    snake2 = [{ x: 10, y: 10 }];
-    food1 = { x: 15, y: 15 };
-    food2 = { x: 20, y: 20 };
+    isGameOver = false;
     score1 = 0;
     score2 = 0;
-    direction1 = { x: 1, y: 0 };
-    direction2 = { x: 1, y: 0 };
-    gameOver = false;
-    gameStarted = false;
-    document.getElementById('resultMessage').style.display = 'none';
-    document.getElementById('score1').innerText = `Puntuación: ${score1}`;
-    document.getElementById('score2').innerText = `Puntuación: ${score2}`;
-});
+    snakes = [
+        [new helpers.Vec(5, 5)], // Jugador 1
+        [new helpers.Vec(15, 15)] // Jugador 2
+    ];
+    food1 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells)); // Comida del jugador 1
+    food2 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells)); // Comida del jugador 2
+    KEY.listen();
+    draw();
+    gameInterval = setInterval(updateSnakes, 100); // Almacena el ID del intervalo
+    restartButton.style.display = "none"; // Oculta el botón de reinicio al iniciar el juego
+}
 
-// HTML del botón de inicio
-// <button id="startButton">Iniciar Juego</button>
+// Función para reiniciar el juego
+function restartGame() {
+    clearInterval(gameInterval); // Limpia el intervalo anterior
+    gameStarted = false; // Reinicia el estado del juego
+    isGameOver = false;
+    startGame(); // Llama a la función de inicio para reiniciar el juego
+    restartButton.style.display = "none"; // Oculta el botón de reinicio
+}
+
+// Función de dibujo
+function draw() {
+    CTX1.clearRect(0, 0, W, H);
+    CTX2.clearRect(0, 0, W, H);
+    helpers.drawGrid(CTX1);
+    helpers.drawGrid(CTX2);
+
+    // Dibuja la comida en ambos canvases como rojas
+    CTX1.fillStyle = "red";
+    CTX1.fillRect(food1.x * (W / cells), food1.y * (H / cells), (W / cells), (H / cells));
+    CTX2.fillStyle = "red"; // Cambia el color para que la comida del jugador 2 también sea roja
+    CTX2.fillRect(food2.x * (W / cells), food2.y * (H / cells), (W / cells), (H / cells));
+
+    // Dibuja las serpientes
+    snakes.forEach((snake, index) => {
+        let ctx = index === 0 ? CTX1 : CTX2;
+        ctx.fillStyle = index === 0 ? "green" : "blue";
+        snake.forEach(segment => {
+            ctx.fillRect(segment.x * (W / cells), segment.y * (H / cells), (W / cells), (H / cells));
+        });
+    });
+
+    if (!isGameOver) requestAnimationFrame(draw);
+}
+
+// Actualiza la posición de las serpientes
+function updateSnakes() {
+    snakes.forEach((snake, index) => {
+        let head = snake[0];
+        let newHead = new helpers.Vec(head.x , head.y);
+
+        // Mueve la serpiente en la dirección correspondiente
+        if (index === 0) {
+            newHead.add(new helpers.Vec(directions.player1.x, directions.player1.y));
+        } else {
+            newHead.add(new helpers.Vec(directions.player2.x, directions.player2.y));
+        }
+
+        // Verifica colisiones
+        if (index === 0 && helpers.isCollision(newHead, food1)) {
+            score1++;
+            food1 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells)); // Nueva comida para el jugador 1
+        } else if (index === 1 && helpers.isCollision(newHead, food2)) {
+            score2++;
+            food2 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells)); // Nueva comida para el jugador 2
+        } else {
+            snake.pop(); // Elimina la cola si no comió
+        }
+
+        snake.unshift(newHead); // Agrega la nueva cabeza
+        checkGameOver(snake);
+    });
+}
+
+// Verifica si el juego ha terminado
+function checkGameOver(snake) {
+    let head = snake[0];
+
+    // Verifica colisión con los bordes del canvas
+    if (head.x < 0 || head.x >= cells || head.y < 0 || head.y >= cells) {
+        if (!isGameOver) { // Verifica si el juego ya ha terminado
+            isGameOver = true;
+            alert("Game Over!"); // Mensaje de fin de juego
+            restartButton.style.display = "block"; // Muestra el botón de reinicio
+        }
+    }
+
+    // Verifica colisión con el propio cuerpo de la serpiente
+    for (let i = 1; i < snake.length; i++) {
+        if (helpers.isCollision(head, snake[i])) {
+            if (!isGameOver) { // Verifica si el juego ya ha terminado
+                isGameOver = true;
+                alert("Game Over!"); // Mensaje de fin de juego
+                restartButton.style.display = "block"; // Muestra el botón de reinicio
+            }
+            break; // Salir del bucle si hay una colisión
+        }
+    }
+}
+
+// Iniciar el juego al hacer clic en el botón
+startButton.addEventListener('click', startGame);
+restartButton.addEventListener('click', restartGame); // Agrega el evento para reiniciar el juego
+KEY.listen();
