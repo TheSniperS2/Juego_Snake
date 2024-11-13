@@ -1,0 +1,83 @@
+/* Estilos generales del cuerpo */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #1a1a1a; /* Fondo oscuro */
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Contenedor del juego */
+.game-container {
+    display: flex;
+    justify-content: space-between; /* Espacio entre los paneles de juego */
+    align-items: flex-start; /* Alinear los elementos al inicio */
+    width: 80%; /* Ancho del contenedor */
+    max-width: 1200px; /* Ancho máximo */
+}
+
+/* Contenedor de cada jugador */
+.player-container {
+    text-align: center;
+    position: relative;
+    width: 40%; /* Ancho de cada contenedor de jugador */
+}
+
+/* Estilo del lienzo */
+canvas {
+    border: 5px solid #ffffff; /* Borde blanco */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* Sombra para efecto de profundidad */
+    background-color: #000000; /* Fondo del lienzo */
+}
+
+/* Estilos para el scoreboard */
+.scoreboard {
+    color: #ffffff;
+    font-size: 20px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7); /* Sombra para texto */
+}
+
+/* Contenedor para los botones de iniciar juego y reiniciar */
+.button-container {
+    display: flex; /* Usar flexbox para alinear los botones */
+    flex-direction: column; /* Alinear los botones en columna */
+    justify-content: center; /* Centrar los botones verticalmente */
+    align-items: center; /* Centrar los botones horizontalmente */
+    gap: 10px; /* Espacio entre los botones */
+    width: 20%; /* Ancho del contenedor de botones */
+    margin-top: 20px; /* Espacio arriba de los botones */
+}
+
+/* Estilo para el botón de iniciar juego */
+.start-button {
+    background-color: #00ff00; /* Color verde */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    left: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Estilo para el botón de reiniciar */
+.restart-button {
+    background-color: #ff9900; /* Color naranja */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Estilo para el mensaje de Game Over */
+.game-over-message {
+    color: #ff0000; /* Color rojo para el mensaje */
+    font-size: 24px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+    display: none; /* Oculto por defecto */
+}
