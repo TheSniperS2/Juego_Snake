@@ -12,7 +12,7 @@ const H = (dom_canvas1.height = dom_canvas2.height = 400);
 let snakes = [],
     food1,
     food2,
-    cells = 20,
+    cells = 15,
     isGameOver = false,
     gameStarted = false; // Variable para controlar el inicio del juego
 
@@ -85,31 +85,31 @@ let KEY = {
     listen() {
         addEventListener("keydown", (e) => {
             // Controles del Jugador 1
-            if (e.key === "ArrowUp" && directions.player1.y === 0) {
-                directions.player1 = { x: 0, y: -1 };
+            if (e.key === "ArrowUp" && directions.player2.y === 0) {
+                directions.player2 = { x: 0, y: -1 };
             }
-            if (e.key === "ArrowDown" && directions .player1.y === 0) {
-                directions.player1 = { x: 0, y: 1 };
+            if (e.key === "ArrowDown" && directions .player2.y === 0) {
+                directions.player2 = { x: 0, y: 1 };
             }
-            if (e.key === "ArrowLeft" && directions.player1.x === 0) {
-                directions.player1 = { x: -1, y: 0 };
+            if (e.key === "ArrowLeft" && directions.player2.x === 0) {
+                directions.player2 = { x: -1, y: 0 };
             }
-            if (e.key === "ArrowRight" && directions.player1.x === 0) {
-                directions.player1 = { x: 1, y: 0 };
+            if (e.key === "ArrowRight" && directions.player2.x === 0) {
+                directions.player2 = { x: 1, y: 0 };
             }
 
             // Controles del Jugador 2
-            if (e.key === "w" && directions.player2.y === 0) {
-                directions.player2 = { x: 0, y: -1 };
+            if (e.key === "w" && directions.player1.y === 0) {
+                directions.player1 = { x: 0, y: -1 };
             }
-            if (e.key === "s" && directions.player2.y === 0) {
-                directions.player2 = { x: 0, y: 1 };
+            if (e.key === "s" && directions.player1.y === 0) {
+                directions.player1 = { x: 0, y: 1 };
             }
-            if (e.key === "a" && directions.player2.x === 0) {
-                directions.player2 = { x: -1, y: 0 };
+            if (e.key === "a" && directions.player1.x === 0) {
+                directions.player1 = { x: -1, y: 0 };
             }
-            if (e.key === "d" && directions.player2.x === 0) {
-                directions.player2 = { x: 1, y: 0 };
+            if (e.key === "d" && directions.player1.x === 0) {
+                directions.player1 = { x: 1, y: 0 };
             }
 
             // Reiniciar el juego al presionar la barra espaciadora
