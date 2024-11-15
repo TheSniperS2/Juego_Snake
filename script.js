@@ -88,14 +88,14 @@ let KEY = {
             if (e.key === "ArrowUp" && directions.player1.y === 0) {
                 directions.player1 = { x: 0, y: -1 };
             }
-            if (e.key === "ArrowDown" && directions.player1.y === 0) {
+            if (e.key === "ArrowDown" && directions .player1.y === 0) {
                 directions.player1 = { x: 0, y: 1 };
             }
             if (e.key === "ArrowLeft" && directions.player1.x === 0) {
                 directions.player1 = { x: -1, y: 0 };
             }
             if (e.key === "ArrowRight" && directions.player1.x === 0) {
-                directions .player1 = { x: 1, y: 0 };
+                directions.player1 = { x: 1, y: 0 };
             }
 
             // Controles del Jugador 2
@@ -115,15 +115,20 @@ let KEY = {
             // Reiniciar el juego al presionar la barra espaciadora
             if (e.key === " ") {
                 e.preventDefault(); // Evitar el comportamiento predeterminado de la barra espaciadora
-                if (!gameStarted) {
-                    startGame(); // Iniciar el juego si no ha comenzado
-                } else {
-                    restartGame(); // Reiniciar el juego si ya ha comenzado
-                }
+                restartGame(); // Reiniciar el juego
             }
         }, false);
     }
 };
+
+// Agregar evento de clic al botón de reinicio
+dom_replay.addEventListener("click", restartGame);
+
+// Función para actualizar el puntaje
+function updateScore() {
+    dom_score1.innerText = score1.toString().padStart(2, '0');
+    dom_score2.innerText = score2.toString().padStart(2, '0');
+}
 
 // Función para iniciar el juego
 function startGame() {
@@ -147,6 +152,7 @@ function startGame() {
     draw();
     gameInterval = setInterval(updateSnakes, 100); 
     gameOverMessage.style.display = "none"; 
+    updateScore(); // Actualizar el puntaje al iniciar el juego
 }
 
 // Función para reiniciar el juego
@@ -201,11 +207,13 @@ function updateSnakes() {
         if (index === 0 && helpers.isCollision(newHead, food1)) {
             score1++;
             food1 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells)); 
+            updateScore(); // Actualizar el puntaje después de que el jugador 1 coma una fruta
         } else if (index === 1 && helpers.isCollision(newHead, food2)) {
             score2++;
             food2 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells)); 
+            updateScore(); // Actualizar el puntaje después de que el jugador 2 coma una fruta
         } else {
-            snake.pop (); 
+            snake.pop(); 
         }
 
         snake.unshift(newHead); 

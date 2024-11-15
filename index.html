@@ -19,23 +19,31 @@
 <body>
     <div class="container noselect">
         <div class="wrapper">
-            <button id="replay">
-                <i class="fas fa-play"></i>
+            <button id="replay" style="font-size: 15px; padding: 10px 20px;">
+                <i class="fas fa-play" style= "font-size: 15px; margin-right: 5px;"></i>
                 RESTART
             </button>
             <canvas id="canvas1" class="game-canvas" width="400" height="400"></canvas>
             <canvas id="canvas2" class="game-canvas" width="400" height="400"></canvas>
             <div id="ui">
+                <h1>SCORE</h1>
                 <div id="score-container">
-                    <h2>SCORE</h2>
-                    <span id="score1">00</span>
-                    <span id="score2">00</span>
+                    <div id="ui">
+                        <div id="score-container">
+                            <h1>Jugador 1</h1>
+                            <div id="score1">00</div>
+                        </div>
+                        <div id="score-container">
+                            <h1>Jugador 2</h1>
+                            <div id="score2">00</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="gameOverMessage" style="display: none; color: red; font-size: 24px;">Game Over!</div> <!-- Mensaje de fin de juego -->
         </div>
         <div id="author">
-            <h1>SNAKE</h1>
+            <h1 class="title">SNAKE</h1>
         </div>
     </div>
 

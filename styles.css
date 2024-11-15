@@ -131,8 +131,8 @@ h2 {
     margin: 10px;
     width: 90vw; /* Ajusta el tamaño según sea necesario */
     height: 90vw; /* Ajusta el tamaño según sea necesario */
-    max-width: 400px; /* Tamaño máximo */
-    max-height: 400px; /* Tamaño máximo */
+    max-width: 700px; /* Tamaño máximo */
+    max-height: 700px; /* Tamaño máximo */
 }
 
 /* Estilos para el botón de inicio */
@@ -167,4 +167,8 @@ h2 {
     #author h1 {
         font-size: 20px; /* Ajusta el tamaño de la fuente */
     }
+}
+
+.title {
+    margin-left: -30px; /* Ajusta este valor según lo necesites */
 }
