@@ -20,9 +20,8 @@ let score1 = 0; // Inicializar score1
 let score2 = 0; // Inicializar score2
 let gameInterval; // Variable para almacenar el ID del intervalo
 
-// Agregar botones de inicio y reinicio
-const startButton = document.getElementById('startButton');
-const restartButton = document.getElementById('restartButton');
+// Obtener el elemento para mostrar el mensaje de fin de juego
+const gameOverMessage = document.getElementById('gameOverMessage');
 
 let helpers = {
     Vec: class {
@@ -54,21 +53,38 @@ let helpers = {
             ctx.stroke();
             ctx.closePath();
         }
+    },
+    drawInitialState() {
+        // Dibuja el estado inicial de las serpientes y la comida
+        CTX1.clearRect(0, 0, W, H);
+        CTX2.clearRect(0, 0, W, H);
+        this.drawGrid(CTX1);
+        this.drawGrid(CTX2);
+
+        CTX1.fillStyle = "green";
+        CTX1.fillRect(0, Math.floor(cells / 2) * (H / cells), (W / cells), (H / cells)); // Jugador 1
+        CTX2.fillStyle = "blue";
+        CTX2.fillRect(0, Math.floor(cells / 2) * (H / cells), (W / cells), (H / cells)); // Jugador 2
+
+        food1 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells));
+        food2 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells));
+
+        CTX1.fillStyle = "red";
+        CTX1.fillRect(food1.x * (W / cells), food1.y * (H / cells), (W / cells), (H / cells));
+        CTX2.fillStyle = "red";
+        CTX2.fillRect(food2.x * (W / cells), food2.y * (H / cells), (W / cells), (H / cells));
     }
 };
 
-// Almacenar la dirección de cada serpiente
 let directions = {
-    player1: { x: 0, y: 0 },
-    player2: { x:  0, y: 0 }
+    player1: { x: 1, y: 0 },
+    player2: { x: 1, y: 0 }
 };
 
 let KEY = {
     listen() {
         addEventListener("keydown", (e) => {
-            if (!gameStarted) return; // Ignora los controles si el juego no ha comenzado
-
-            // Player 1 controls
+            // Controles del Jugador 1
             if (e.key === "ArrowUp" && directions.player1.y === 0) {
                 directions.player1 = { x: 0, y: -1 };
             }
@@ -79,10 +95,10 @@ let KEY = {
                 directions.player1 = { x: -1, y: 0 };
             }
             if (e.key === "ArrowRight" && directions.player1.x === 0) {
-                directions.player1 = { x: 1, y: 0 };
+                directions .player1 = { x: 1, y: 0 };
             }
 
-            // Player 2 controls
+            // Controles del Jugador 2
             if (e.key === "w" && directions.player2.y === 0) {
                 directions.player2 = { x: 0, y: -1 };
             }
@@ -95,37 +111,56 @@ let KEY = {
             if (e.key === "d" && directions.player2.x === 0) {
                 directions.player2 = { x: 1, y: 0 };
             }
+
+            // Reiniciar el juego al presionar la barra espaciadora
+            if (e.key === " ") {
+                e.preventDefault(); // Evitar el comportamiento predeterminado de la barra espaciadora
+                if (!gameStarted) {
+                    startGame(); // Iniciar el juego si no ha comenzado
+                } else {
+                    restartGame(); // Reiniciar el juego si ya ha comenzado
+                }
+            }
         }, false);
     }
 };
 
 // Función para iniciar el juego
 function startGame() {
-    if (gameStarted) return; // Evita reiniciar si el juego ya comenzó
+    if (gameStarted) return;
 
     gameStarted = true;
     isGameOver = false;
-    score1 = 0;
+    score1 = 0; 
     score2 = 0;
+    gameOverAlertShown = false;
+
+    const initialX = 0; 
+    const initialY = Math.floor(cells / 2); 
+
     snakes = [
-        [new helpers.Vec(5, 5)], // Jugador 1
-        [new helpers.Vec(15, 15)] // Jugador 2
+        [new helpers.Vec(initialX, initialY)], 
+        [new helpers.Vec(initialX, initialY)]  
     ];
-    food1 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells)); // Comida del jugador 1
-    food2 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells)); // Comida del jugador 2
+
     KEY.listen();
     draw();
-    gameInterval = setInterval(updateSnakes, 100); // Almacena el ID del intervalo
-    restartButton.style.display = "none"; // Oculta el botón de reinicio al iniciar el juego
+    gameInterval = setInterval(updateSnakes, 100); 
+    gameOverMessage.style.display = "none"; 
 }
 
 // Función para reiniciar el juego
 function restartGame() {
-    clearInterval(gameInterval); // Limpia el intervalo anterior
-    gameStarted = false; // Reinicia el estado del juego
+    clearInterval(gameInterval); 
+    gameStarted = false; 
     isGameOver = false;
-    startGame(); // Llama a la función de inicio para reiniciar el juego
-    restartButton.style.display = "none"; // Oculta el botón de reinicio
+    directions.player1 = { x: 1, y: 0 }; 
+    directions.player2 = { x: 1, y: 0 }; 
+
+    food1 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells));
+    food2 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells));
+
+    startGame(); 
 }
 
 // Función de dibujo
@@ -135,13 +170,11 @@ function draw() {
     helpers.drawGrid(CTX1);
     helpers.drawGrid(CTX2);
 
-    // Dibuja la comida en ambos canvases como rojas
     CTX1.fillStyle = "red";
     CTX1.fillRect(food1.x * (W / cells), food1.y * (H / cells), (W / cells), (H / cells));
-    CTX2.fillStyle = "red"; // Cambia el color para que la comida del jugador 2 también sea roja
+    CTX2.fillStyle = "red"; 
     CTX2.fillRect(food2.x * (W / cells), food2.y * (H / cells), (W / cells), (H / cells));
 
-    // Dibuja las serpientes
     snakes.forEach((snake, index) => {
         let ctx = index === 0 ? CTX1 : CTX2;
         ctx.fillStyle = index === 0 ? "green" : "blue";
@@ -155,60 +188,72 @@ function draw() {
 
 // Actualiza la posición de las serpientes
 function updateSnakes() {
+    let gameOverCount = 0; 
+    let collisionStatus = [false, false]; 
+
     snakes.forEach((snake, index) => {
         let head = snake[0];
-        let newHead = new helpers.Vec(head.x , head.y);
+        let newHead = new helpers.Vec(head.x, head.y);
 
-        // Mueve la serpiente en la dirección correspondiente
-        if (index === 0) {
-            newHead.add(new helpers.Vec(directions.player1.x, directions.player1.y));
-        } else {
-            newHead.add(new helpers.Vec(directions.player2.x, directions.player2.y));
-        }
+        if (index === 0) newHead.add(new helpers.Vec(directions.player1.x, directions.player1.y));
+        else newHead.add(new helpers.Vec(directions.player2.x, directions.player2.y));
 
-        // Verifica colisiones
         if (index === 0 && helpers.isCollision(newHead, food1)) {
             score1++;
-            food1 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells)); // Nueva comida para el jugador 1
+            food1 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells)); 
         } else if (index === 1 && helpers.isCollision(newHead, food2)) {
             score2++;
-            food2 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells)); // Nueva comida para el jugador 2
+            food2 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells)); 
         } else {
-            snake.pop(); // Elimina la cola si no comió
+            snake.pop (); 
         }
 
-        snake.unshift(newHead); // Agrega la nueva cabeza
-        checkGameOver(snake);
+        snake.unshift(newHead); 
+        collisionStatus[index] = checkGameOver(snake, index); 
+
+        if (collisionStatus[index]) {
+            gameOverCount++;
+        }
     });
+
+    if (gameOverCount === snakes.length) {
+        if (!gameOverAlertShown) {
+            alert("¡Es un empate! Ambos jugadores han colisionado.");
+            gameOverAlertShown = true; 
+            clearInterval(gameInterval); 
+        }
+        dom_replay.style.display = "block"; 
+    } else if (gameOverCount === 1) {
+        const losingPlayerIndex = collisionStatus.indexOf(true);
+        if (!gameOverAlertShown) {
+            alert(`¡Jugador ${losingPlayerIndex + 1} ha perdido! El ganador es el Jugador ${losingPlayerIndex === 0 ? 2 : 1}`); 
+            gameOverAlertShown = true; 
+            clearInterval(gameInterval); 
+        }
+        dom_replay.style.display = "block"; 
+    }
 }
 
 // Verifica si el juego ha terminado
-function checkGameOver(snake) {
+function checkGameOver(snake, playerIndex) {
     let head = snake[0];
 
-    // Verifica colisión con los bordes del canvas
     if (head.x < 0 || head.x >= cells || head.y < 0 || head.y >= cells) {
-        if (!isGameOver) { // Verifica si el juego ya ha terminado
-            isGameOver = true;
-            alert("Game Over!"); // Mensaje de fin de juego
-            restartButton.style.display = "block"; // Muestra el botón de reinicio
-        }
+        return true; 
     }
 
-    // Verifica colisión con el propio cuerpo de la serpiente
     for (let i = 1; i < snake.length; i++) {
         if (helpers.isCollision(head, snake[i])) {
-            if (!isGameOver) { // Verifica si el juego ya ha terminado
-                isGameOver = true;
-                alert("Game Over!"); // Mensaje de fin de juego
-                restartButton.style.display = "block"; // Muestra el botón de reinicio
-            }
-            break; // Salir del bucle si hay una colisión
+            return true; 
         }
     }
+    return false; 
 }
 
-// Iniciar el juego al hacer clic en el botón
-startButton.addEventListener('click', startGame);
-restartButton.addEventListener('click', restartGame); // Agrega el evento para reiniciar el juego
+// Iniciar el juego al cargar la página
+window.onload = () => {
+    helpers.drawInitialState(); 
+};
+
+// Escuchar la tecla para iniciar o reiniciar el juego
 KEY.listen();

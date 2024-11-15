@@ -129,8 +129,10 @@ h2 {
 .game-canvas {
     border: 1px solid #000;
     margin: 10px;
-    width: 400px; /* Ajusta el tamaño según sea necesario */
-    height: 400px; /* Ajusta el tamaño según sea necesario */
+    width: 90vw; /* Ajusta el tamaño según sea necesario */
+    height: 90vw; /* Ajusta el tamaño según sea necesario */
+    max-width: 400px; /* Tamaño máximo */
+    max-height: 400px; /* Tamaño máximo */
 }
 
 /* Estilos para el botón de inicio */
@@ -152,4 +154,17 @@ h2 {
 
 .start-button:focus {
     outline: none; /* Quitar el borde de enfoque */
+}
+
+/* Media Queries para pantallas más pequeñas */
+@media (max-width: 768px) {
+    #replay {
+        font-size:  14px; /* Ajusta el tamaño de la fuente */
+    }
+    #score1, #score2 {
+        font-size: 24px; /* Ajusta el tamaño de la fuente */
+    }
+    #author h1 {
+        font-size: 20px; /* Ajusta el tamaño de la fuente */
+    }
 }
