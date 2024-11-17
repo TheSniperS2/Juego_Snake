@@ -23,6 +23,12 @@ let gameInterval; // Variable para almacenar el ID del intervalo
 // Obtener el elemento para mostrar el mensaje de fin de juego
 const gameOverMessage = document.getElementById('gameOverMessage');
 
+// Cargar imágenes para las cabezas de las serpientes
+const headImage1 = new Image();
+headImage1.src = '/images/headPlayer1.png'; // Ruta de la imagen para el Jugador 1
+const headImage2 = new Image();
+headImage2.src = '/images/headPlayer2.png'; // Ruta de la imagen para el Jugador 2
+
 let helpers = {
     Vec: class {
         constructor(x, y) {
@@ -61,65 +67,66 @@ let helpers = {
         this.drawGrid(CTX1);
         this.drawGrid(CTX2);
 
-        CTX1.fillStyle = "green";
-        CTX1.fillRect(0, Math.floor(cells / 2) * (H / cells), (W / cells), (H / cells)); // Jugador 1
-        CTX2.fillStyle = "blue";
-        CTX2.fillRect(0, Math.floor(cells / 2) * (H / cells), (W / cells), (H / cells)); // Jugador 2
-
         food1 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells));
         food2 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells));
 
+        // Dibuja la comida en rojo para ambos jugadores
         CTX1.fillStyle = "red";
-        CTX1.fillRect(food1.x * (W / cells), food1.y * (H / cells), (W / cells), (H / cells));
+        drawRoundedRect(CTX1, food1.x * (W / cells), food1.y * (H / cells), (W / cells), (H / cells), 10);
         CTX2.fillStyle = "red";
-        CTX2.fillRect(food2.x * (W / cells), food2.y * (H / cells), (W / cells), (H / cells));
+        drawRoundedRect(CTX2, food2.x * (W / cells), food2.y * (H / cells), (W / cells), ( H / cells), 10);
     }
 };
 
 let directions = {
     player1: { x: 1, y: 0 },
-    player2: { x: 1, y: 0 }
+    player2: { x: 1, y: 0 } // Inicializa el movimiento del jugador 2 hacia la derecha
 };
 
 let KEY = {
     listen() {
-        addEventListener("keydown", (e) => {
-            // Controles del Jugador 1
-            if (e.key === "ArrowUp" && directions.player2.y === 0) {
-                directions.player2 = { x: 0, y: -1 };
-            }
-            if (e.key === "ArrowDown" && directions .player2.y === 0) {
-                directions.player2 = { x: 0, y: 1 };
-            }
-            if (e.key === "ArrowLeft" && directions.player2.x === 0) {
-                directions.player2 = { x: -1, y: 0 };
-            }
-            if (e.key === "ArrowRight" && directions.player2.x === 0) {
-                directions.player2 = { x: 1, y: 0 };
-            }
-
-            // Controles del Jugador 2
-            if (e.key === "w" && directions.player1.y === 0) {
-                directions.player1 = { x: 0, y: -1 };
-            }
-            if (e.key === "s" && directions.player1.y === 0) {
-                directions.player1 = { x: 0, y: 1 };
-            }
-            if (e.key === "a" && directions.player1.x === 0) {
-                directions.player1 = { x: -1, y: 0 };
-            }
-            if (e.key === "d" && directions.player1.x === 0) {
-                directions.player1 = { x: 1, y: 0 };
-            }
-
-            // Reiniciar el juego al presionar la barra espaciadora
-            if (e.key === " ") {
-                e.preventDefault(); // Evitar el comportamiento predeterminado de la barra espaciadora
-                restartGame(); // Reiniciar el juego
-            }
-        }, false);
+        addEventListener("keydown", handleKeydown, false);
+    },
+    unlisten() {
+        removeEventListener("keydown", handleKeydown, false);
     }
 };
+
+function handleKeydown(e) {
+    // Controles del Jugador 1
+    if (e.key === "ArrowUp" && directions.player2.y === 0) {
+        directions.player2 = { x: 0, y: -1 };
+    }
+    if (e.key === "ArrowDown" && directions.player2.y === 0) {
+        directions.player2 = { x: 0 , y: 1 };
+    }
+    if (e.key === "ArrowLeft" && directions.player2.x ===  0) {
+        directions.player2 = { x: -1, y: 0 };
+    }
+    if (e.key === "ArrowRight" && directions.player2.x === 0) {
+        directions.player2 = { x: 1, y: 0 };
+    }
+
+    // Controles del Jugador 2
+    if (e.key === "w" && directions.player1.y === 0) {
+        directions.player1 = { x: 0, y: -1 };
+    }
+    if (e.key === "s" && directions.player1.y === 0) {
+        directions.player1 = { x: 0, y: 1 };
+    }
+    if (e.key === "a" && directions.player1.x === 0) {
+        directions.player1 = { x: -1, y: 0 };
+    }
+    if (e.key === "d" && directions.player1.x === 0) {
+        directions.player1 = { x: 1, y: 0 };
+    }
+
+    // Reiniciar el juego al presionar la barra espaciadora
+    if (e.key === " ") {
+        e.preventDefault(); // Evitar el comportamiento predeterminado de la barra espaciadora
+        restartGame(); // Reiniciar el juego
+    }
+}
 
 // Agregar evento de clic al botón de reinicio
 dom_replay.addEventListener("click", restartGame);
@@ -148,6 +155,10 @@ function startGame() {
         [new helpers.Vec(initialX, initialY)]  
     ];
 
+    // Mover las serpientes automáticamente hacia la derecha
+    directions.player1 = { x: 1, y: 0 };
+    directions.player2 = { x: 1, y: 0 };
+
     KEY.listen();
     draw();
     gameInterval = setInterval(updateSnakes, 100); 
@@ -158,15 +169,59 @@ function startGame() {
 // Función para reiniciar el juego
 function restartGame() {
     clearInterval(gameInterval); 
+    KEY.unlisten(); // Desvincular eventos de teclado
     gameStarted = false; 
     isGameOver = false;
+
+    // Reiniciar puntajes
+    score1 = 0;
+    score2 = 0;
+    updateScore(); // Actualizar los puntajes en el DOM
+
+    // Reiniciar dirección de las serpientes
     directions.player1 = { x: 1, y: 0 }; 
     directions.player2 = { x: 1, y: 0 }; 
 
+    // Reiniciar la comida
     food1 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells));
     food2 = new helpers.Vec(Math.floor(Math.random() * cells), Math.floor(Math.random() * cells));
 
+    // Limpiar el estado de las serpientes
+    snakes = [];
+    
+    // Dibujar estado inicial
+    helpers.drawInitialState(); 
+
+    // Iniciar el juego nuevamente
     startGame(); 
+}
+
+// Función para dibujar un rectángulo con bordes redondeados
+function drawRoundedRect(ctx, x, y, width, height, radius) {
+    ctx.beginPath();
+    ctx .moveTo(x + radius, y);
+    ctx.lineTo(x + width - radius, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+    ctx.lineTo(x + width, y + height - radius);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    ctx.lineTo(x + radius, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.closePath();
+    ctx.fill();
+}
+
+// Función para dibujar la cabeza de la serpiente como una imagen circular
+function drawSnakeHead(ctx, x, y, image) {
+    const radius = (W / cells) / 2; // Radio del círculo, la mitad del tamaño de la celda
+    ctx.save(); // Guarda el estado del canvas
+    ctx.beginPath();
+    ctx.arc(x + radius, y + radius, radius, 0, Math.PI * 2); // Dibuja un círculo
+    ctx.closePath();
+    ctx.clip(); // Recorta el canvas a la forma del círculo
+    ctx.drawImage(image, x, y, (W / cells), (H / cells)); // Dibuja la imagen en la posición (x, y)
+    ctx.restore(); // Restaura el canvas al estado anterior
 }
 
 // Función de dibujo
@@ -176,17 +231,21 @@ function draw() {
     helpers.drawGrid(CTX1);
     helpers.drawGrid(CTX2);
 
-    CTX1.fillStyle = "red";
-    CTX1.fillRect(food1.x * (W / cells), food1.y * (H / cells), (W / cells), (H / cells));
+    // Dibuja la comida en rojo para ambos jugadores
+    CTX1.fillStyle = "red"; 
+    drawRoundedRect(CTX1, food1.x * (W / cells), food1.y * (H / cells), (W / cells), (H / cells), 10);
     CTX2.fillStyle = "red"; 
-    CTX2.fillRect(food2.x * (W / cells), food2.y * (H / cells), (W / cells), (H / cells));
+    drawRoundedRect(CTX2, food2.x * (W / cells), food2.y * (H / cells), (W / cells), (H / cells), 10);
 
     snakes.forEach((snake, index) => {
         let ctx = index === 0 ? CTX1 : CTX2;
-        ctx.fillStyle = index === 0 ? "green" : "blue";
-        snake.forEach(segment => {
-            ctx.fillRect(segment.x * (W / cells), segment.y * (H / cells), (W / cells), (H / cells));
-        });
+        // Dibuja la cabeza de la serpiente usando la imagen circular
+        drawSnakeHead(ctx, snake[0].x * (W / cells), snake[0].y * (H / cells), index === 0 ? headImage1 : headImage2);
+        // Dibuja el cuerpo de la serpiente
+        for (let i = 1; i < snake.length; i++) {
+            ctx.fillStyle = index === 0 ? "green" : "blue";
+            drawRoundedRect(ctx, snake[i].x * (W / cells), snake[i].y * (H / cells), (W / cells), (H / cells), 10);
+        }
     });
 
     if (!isGameOver) requestAnimationFrame(draw);
@@ -222,22 +281,24 @@ function updateSnakes() {
         if (collisionStatus[index]) {
             gameOverCount++;
         }
+
+        // Verificar si alguno de los jugadores ha alcanzado 30 puntos
+        if (score1 >= 30 || score2 >= 30) {
+            const winner = score1 >= 30 ? 1 : 2;
+            alert(`¡Jugador ${winner} ha ganado al alcanzar 30 puntos!`);
+            clearInterval(gameInterval); 
+            dom_replay.style.display = "block"; 
+        }
     });
 
     if (gameOverCount === snakes.length) {
-        if (!gameOverAlertShown) {
-            alert("¡Es un empate! Ambos jugadores han colisionado.");
-            gameOverAlertShown = true; 
-            clearInterval(gameInterval); 
-        }
+        alert("¡Es un empate! Ambos jugadores han colisionado.");
+        clearInterval(gameInterval); 
         dom_replay.style.display = "block"; 
     } else if (gameOverCount === 1) {
         const losingPlayerIndex = collisionStatus.indexOf(true);
-        if (!gameOverAlertShown) {
-            alert(`¡Jugador ${losingPlayerIndex + 1} ha perdido! El ganador es el Jugador ${losingPlayerIndex === 0 ? 2 : 1}`); 
-            gameOverAlertShown = true; 
-            clearInterval(gameInterval); 
-        }
+        alert(`¡Jugador ${losingPlayerIndex + 1} ha perdido! El ganador es el Jugador ${losingPlayerIndex === 0 ? 2 : 1}`); 
+        clearInterval(gameInterval); 
         dom_replay.style.display = "block"; 
     }
 }

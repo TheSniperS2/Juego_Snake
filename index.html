@@ -9,39 +9,56 @@
     <script defer src="https://pro.fontawesome.com/releases/v5.10.0/js/all.js"
         integrity="sha384-G/ZR3ntz68JZrH4pfPJyRbjW+c0+ojii5f+GYiYwldYU69A+Ejat6yIfLSxljXxD"
         crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;800&display=swap" rel="stylesheet">
+    
+    <!-- Aquí carga la fuente desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
     <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
-
 </head>
+
 <body>
     <div class="container noselect">
-        <div class="wrapper">
-            <button id="replay" style="font-size: 15px; padding: 10px 20px;">
-                <i class="fas fa-play" style= "font-size: 15px; margin-right: 5px;"></i>
-                RESTART
-            </button>
-            <canvas id="canvas1" class="game-canvas" width="400" height="400"></canvas>
-            <canvas id="canvas2" class="game-canvas" width="400" height="400"></canvas>
-            <div id="ui">
+        <!-- Barra espaciadora -->
+        <div class="top-center">
+            <img id="spacebar-instruction" src="/images/spacebar.png" alt="Press Space to Start" />
+        </div>
+
+        <!-- Zona principal -->
+        <div class="main-content">
+            <!-- Botón de reinicio -->
+            <div class="restart-button">
+                <button id="replay">
+                    <i class="fas fa-play"></i> RESTART
+                </button>
+            </div>
+
+            <!-- Canvas de los juegos -->
+            <div class="game-area">
+                <canvas id="canvas1" class="game-canvas" width="400" height="400"></canvas>
+                <canvas id="canvas2" class="game-canvas" width="400" height="400"></canvas>
+            </div>
+
+            <!-- Puntajes -->
+            <div class="score-area">
                 <h1>SCORE</h1>
-                <div id="score-container">
-                    <div id="ui">
-                        <div id="score-container">
-                            <h1>Jugador 1</h1>
-                            <div id="score1">00</div>
-                        </div>
-                        <div id="score-container">
-                            <h1>Jugador 2</h1>
-                            <div id="score2">00</div>
-                        </div>
+                <div class="score-container">
+                    <div>
+                        <h2>Jugador 1</h2>
+                        <div id="score1">00</div>
+                    </div>
+                    <div>
+                        <h2>Jugador 2</h2>
+                        <div id="score2">00</div>
                     </div>
                 </div>
             </div>
-            <div id="gameOverMessage" style="display: none; color: red; font-size: 24px;">Game Over!</div> <!-- Mensaje de fin de juego -->
         </div>
+
+        <!-- Mensaje de fin de juego -->
+        <div id="gameOverMessage" style="display: none;">Game Over!</div>
+
+        <!-- Título -->
         <div id="author">
             <h1 class="title">SNAKE</h1>
         </div>
