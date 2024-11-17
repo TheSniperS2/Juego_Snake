@@ -1,116 +1,66 @@
-/* Estilos globales */
 body {
-    background-color: #222738;
-    font-family: "Equilibrium",monospace;
-    font-size: 16px;
-    color: #6e7888;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Asegura que el contenido se mantenga dentro de la ventana */
+    font-family: 'Press Start 2P', cursive; /* Fuente pixelada */
+    background-color: #000; /* Fondo negro */
+    color: #fff; /* Texto blanco */
+    text-align: center;
     margin: 0;
+    padding: 0;
+    height: 100vh; /* Altura completa de la ventana */
+    display: flex; /* Usar flexbox para centrar */
+    flex-direction: column; /* Dirección de los elementos en columna */
+    justify-content: center; /* Centrar verticalmente */
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    min-height: 100vh; /* Asegura que el contenido se centre verticalmente */
-}
-
-/* Imagen de la barra espaciadora */
-.top-center {
-    margin-bottom: 20px;
-}
-
-#spacebar-instruction {
-    max-width: 300px;
-    height: auto;
-}
-
-/* Zona principal */
-.main-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap; /* Ajusta contenido en caso de pantallas pequeñas */
-    max-width: 1100px;
+    max-width: 800px;
     margin: 0 auto;
+    padding: 20px;
+    border: 5px solid #fff; /* Borde blanco */
+    background-color: #222; /* Fondo oscuro para el contenedor */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Sombra suave */
 }
 
-/* Botón de reinicio */
-.restart-button {
-    transform: rotate(-90deg);
-    display: flex;
-    justify-content: center;
-    
+h1 {
+    margin-bottom: 20px;
+    font-size: 2.5em; /* Tamaño de fuente más grande */
+    text-shadow: 2px 2px 0 #ff0000; /* Sombra de texto roja */
 }
 
-#replay {
-    font-family: 'Press Start 2P', monospace; /* Fuente para botones */
-    font-size: 10px;
-    padding: 10px 20px;
-    background: #95dfd2;
-    border: none;
-    color: #222738;
-    border-radius: 10px;
-    cursor: pointer;
-    letter-spacing: 0px; /* Espaciado de letras para mejor legibilidad */
-    font-weight: bold; /* Texto más marcado */
-}
-#replay:hover {
-    background: #36b8a5;
-}
-
-/* Área de los juegos */
-.game-area {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap; /* Ajusta los canvas si hay poco espacio */
-}
-
-.game-canvas {
-    background-color: #181825;
-    border: 1px solid #000;
-    width: 400px;
-    height: 400px;
-}
-
-/* Área de puntajes */
-.score-area {
+.game-list {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra el contenido de puntajes */
-    gap: 10px;
+    align-items: center;
 }
 
-.score-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra los puntajes */
-    gap: 20px;
+.game-item {
+    background-color: #444; /* Fondo gris oscuro */
+    border: 3px solid #ffcc00; /* Borde amarillo */
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px 0;
+    width: 80%;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
 }
 
-.score-container h2 {
-    font-size: 20px;
-    margin: 0;
+.game-item h2 {
+    color: #ffcc00; /* Texto amarillo */
+    text-shadow: 1px 1px 0 #000; /* Sombra negra */
 }
 
-#score1, #score2 {
-    font-family: 'Press Start 2P', monospace; /* Fuente diferente para los números */
-    font-size: 22px; /* Tamaño más grande para destacar */
-    font-weight: 600;
-    color: #4cffd7; /* Color consistente con el diseño */
-    letter-spacing: 2px; /* Espaciado entre caracteres */
+.game-item a {
+    text-decoration: none;
+    color: #00ff00; /* Texto verde */
+    font-weight: bold;
+    font-size: 1.5em; /* Tamaño de fuente más grande */
 }
 
-.title {
-    font-size: 50px;
-    color: #4cffd7;
-    font-family: 'Press Start 2P', monospace; /* Nueva fuente */
-    text-transform: uppercase;
+.game-item a:hover {
+    text-decoration: underline;
+    color: #ff00ff; /* Cambia a color magenta al pasar el mouse */
+}
+
+footer {
+    margin-top: 20px;
+    font-size: 0.8em; /* Tamaño de fuente más pequeño */
+    color: #aaa; /* Texto gris claro */
 }

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico" />
+    <title>Snake Game</title>
+    <script defer src="https://pro.fontawesome.com/releases/v5.10.0/js/all.js"
+        integrity="sha384-G/ZR3ntz68JZrH4pfPJyRbjW+c0+ojii5f+GYiYwldYU69A+Ejat6yIfLSxljXxD"
+        crossorigin="anonymous"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container noselect">
+        <div class="top-center">
+            <img id="spacebar-instruction" src="images/spacebar.png" alt="Press Space to Start" />
+        </div>
+
+        <div class="main-content">
+            <!-- Botón de retroceso -->
+            <div class="back-button">
+                <button id="back">
+                    <i class="fas fa-arrow-left"></i> VOLVER
+                </button>
+            </div>
+
+            <div class="restart-button">
+                <button id="replay">
+                    <i class="fas fa-play"></i> RESTART
+                </button>
+            </div>
+
+            <div class="game-area">
+                <canvas id="canvas" class="game-canvas" width="400" height="400"></canvas>
+            </div>
+
+            <div class="score-area">
+                <h1>SCORE</h1>
+                <div class="score-container">
+                    <div>
+                        <h2>Jugador 1</h2>
+                        <div id="score1">00</div>
+                    </div>
+                    <div>
+                        <h2>Jugador 2</h2>
+                        <div id="score2">00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="gameOverMessage" style="display: none;">Game Over!</div>
+
+        <div id="author">
+            <h1 class="title">BATTLE.SNAKE</h1>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+/* Estilos globales */
+body {
+    background-color: #222738;
+    font-family: "Equilibrium",monospace;
+    font-size: 16px;
+    color: #6e7888;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Asegura que el contenido se mantenga dentro de la ventana */
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh; /* Asegura que el contenido se centre verticalmente */
+}
+
+/* Imagen de la barra espaciadora */
+.top-center {
+    margin-bottom: 20px;
+}
+
+#spacebar-instruction {
+    max-width: 300px;
+    height: auto;
+}
+
+/* Zona principal */
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap; /* Ajusta contenido en caso de pantallas pequeñas */
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Botón de reinicio */
+.restart-button {
+    transform: rotate(-90deg);
+    display: flex;
+    justify-content: center;
+    
+}
+
+#replay {
+    font-family: 'Press Start 2P', monospace; /* Fuente para botones */
+    font-size: 10px;
+    padding: 10px 20px;
+    background: #95dfd2;
+    border: none;
+    color: #222738;
+    border-radius: 10px;
+    cursor: pointer;
+    letter-spacing: 0px; /* Espaciado de letras para mejor legibilidad */
+    font-weight: bold; /* Texto más marcado */
+}
+#replay:hover {
+    background: #36b8a5;
+}
+
+/* Área de los juegos */
+.game-area {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap; /* Ajusta los canvas si hay poco espacio */
+}
+
+.game-canvas {
+    background-color: #181825;
+    border: 1px solid #000;
+    width: 400px;
+    height: 400px;
+}
+
+/* Área de puntajes */
+.score-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el contenido de puntajes */
+    gap: 10px;
+}
+
+.score-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los puntajes */
+    gap: 20px;
+}
+
+.score-container h2 {
+    font-size: 20px;
+    margin: 0;
+}
+
+#score1, #score2 {
+    font-family: 'Press Start 2P', monospace; /* Fuente diferente para los números */
+    font-size: 22px; /* Tamaño más grande para destacar */
+    font-weight: 600;
+    color: #4cffd7; /* Color consistente con el diseño */
+    letter-spacing: 2px; /* Espaciado entre caracteres */
+}
+
+.title {
+    font-size: 50px;
+    color: #4cffd7;
+    font-family: 'Press Start 2P', monospace; /* Nueva fuente */
+    text-transform: uppercase;
+}
+
+/* Estilos para el botón de retroceso */
+.back-button {
+    position: absolute; /* Cambiamos a posición absoluta */
+    top: 10px; /* Espacio desde la parte superior */
+    left: 10px; /* Espacio desde el lado izquierdo */
+    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+}
+
+#back {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    padding: 10px 20px;
+    background: #ff4d4d; /* Color para el botón de retroceso */
+    border: none;
+    color: #ffffff; /* Color del texto */
+    border-radius: 10px;
+    cursor: pointer;
+    letter-spacing: 0px;
+    font-weight: bold;
+}
+
+#back:hover {
+    background: #ff1a1a; /* Color al pasar el ratón */
+}
