@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="favicon.ico" />
-    <title>Minijuegos de Snake</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css"> <!-- Estilos generales -->
+    <title>Minijuegos de Snake</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
@@ -14,16 +14,63 @@
         <div class="game-list">
             <div class="game-item">
                 <h2>Minijuego Battle.Snake</h2>
-                <a href="games/snake_battle/index.html">Jugar</a>
+                <div class="game-preview">
+                    <img src="images/preview_battle.png" alt="Vista previa del Minijuego Battle.Snake" class="preview-image">
+                    <button class="help-button" onclick="openModal('help1')">
+                        <span>?</span>
+                    </button>
+                </div>
+                <div class="play-button-container">
+                    <a href="games/snake_battle/index.html" class="play-button">Jugar</a>
+                </div>
             </div>
             <div class="game-item">
-                <h2>Minijuego Snake VS</h2>
-                <a href="games/snake_vs/index.html">Jugar</a>
+                <h2>Minijuego Snake vs</h2>
+                <div class="game-preview">
+                    <img src="images/preview_vs.png" alt="Vista previa del Minijuego Snake vs" class="preview-image">
+                    <button class="help-button" onclick="openModal('help2')">
+                        <span>?</span>
+                    </button>
+                </div>
+                <div class="play-button-container">
+                    <a href="games/snake_vs/index.html" class="play-button">Jugar</a>
+                </div>
             </div>
         </div>
         <footer>
             <p>&copy; 2024 Minijuegos de Snake.</p>
         </footer>
     </div>
+
+    <!-- Modal -->
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p id="modal-description"></p>
+        </div>
+    </div>
+
+    <script>
+        function openModal(game) {
+            const modal = document.getElementById("helpModal");
+            const title = document.getElementById("modal-title");
+            const description = document.getElementById("modal-description");
+
+            if (game === 'help1') {
+                title.innerText = "Ayuda: Minijuego Battle.Snake";
+                description.innerText = "En este juego, compites contra otro jugador. El objetivo es hacer que el otro jugador pierda al chocar con tu cuerpo o con las paredes. ¡Sé astuto y evita chocar tú mismo!";
+            } else if (game === 'help2') {
+                title.innerText = "Ayuda: Minijuego Snake vs";
+                description.innerText = "En este juego, el objetivo es ser el primero en comer 30 manzanas. ¡Corre, come y no dejes que tu oponente te supere!";
+            }
+
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("helpModal").style.display = "none";
+        }
+    </script>
 </body>
 </html>

@@ -1,40 +1,42 @@
+/* Estilo general */
 body {
-    font-family: 'Press Start 2P', cursive; /* Fuente pixelada */
-    background-color: #000; /* Fondo negro */
-    color: #fff; /* Texto blanco */
+    font-family: 'Press Start 2P', cursive;
+    background-color: #000;
+    color: #fff;
     text-align: center;
     margin: 0;
     padding: 0;
-    height: 100vh; /* Altura completa de la ventana */
-    display: flex; /* Usar flexbox para centrar */
-    flex-direction: column; /* Dirección de los elementos en columna */
-    justify-content: center; /* Centrar verticalmente */
 }
 
+/* Contenedor principal */
 .container {
-    max-width: 800px;
+    max-width: 90%;
     margin: 0 auto;
     padding: 20px;
-    border: 5px solid #fff; /* Borde blanco */
-    background-color: #222; /* Fondo oscuro para el contenedor */
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Sombra suave */
+    border: 5px solid #fff;
+    background-color: #222;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
+/* Estilo del título */
 h1 {
     margin-bottom: 20px;
-    font-size: 2.5em; /* Tamaño de fuente más grande */
-    text-shadow: 2px 2px 0 #ff0000; /* Sombra de texto roja */
+    font-size: 3em; /* Ajuste del tamaño de fuente */
+    text-shadow: 2px 2px 0 #ff0000;
+    word-break: break-word;
 }
 
+/* Lista de juegos */
 .game-list {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+/* Estilo de cada juego */
 .game-item {
-    background-color: #444; /* Fondo gris oscuro */
-    border: 3px solid #ffcc00; /* Borde amarillo */
+    background-color: #444;
+    border: 3px solid #ffcc00;
     border-radius: 8px;
     padding: 20px;
     margin: 10px 0;
@@ -43,24 +45,145 @@ h1 {
 }
 
 .game-item h2 {
-    color: #ffcc00; /* Texto amarillo */
-    text-shadow: 1px 1px 0 #000; /* Sombra negra */
+    color: #ffcc00;
+    text-shadow: 1px 1px 0 #000;
 }
 
 .game-item a {
     text-decoration: none;
-    color: #00ff00; /* Texto verde */
+    color: #ffffff;
     font-weight: bold;
-    font-size: 1.5em; /* Tamaño de fuente más grande */
+    font-size: 1.2em;
 }
 
 .game-item a:hover {
     text-decoration: underline;
-    color: #ff00ff; /* Cambia a color magenta al pasar el mouse */
+    color: #ff00ff;
 }
 
+/* Imagen de previsualización */
+.preview-image {
+    width: 40%;
+    max-width: 400px;
+    height: auto;
+    border: 2px solid #ffcc00;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+/* Footer */
 footer {
     margin-top: 20px;
-    font-size: 0.8em; /* Tamaño de fuente más pequeño */
-    color: #aaa; /* Texto gris claro */
+    font-size: 0.8em;
+    color: #aaa;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #222;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #fff;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Botón de ayuda */
+.help-button {
+    background-color: #00ccff;
+    color: #fff;
+    font-size: 20px;
+    border: 3px solid #0077aa;
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 0px #005577;
+    cursor: pointer;
+    font-family: 'Press Start 2P', cursive;
+    transition: transform 0.2s ease;
+}
+
+.help-button:hover {
+    transform: translateY(-2px);
+    background-color: #0099cc;
+}
+
+/* Botón de jugar */
+.play-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.play-button {
+    background-color: #00ff00;
+    color: #000;
+    font-size: 1em;
+    font-weight: bold;
+    border: 3px solid #009900;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0px 4px 0px #006600;
+    text-transform: uppercase;
+    transition: transform 0.2s ease;
+}
+
+.play-button:hover {
+    transform: translateY(-2px);
+    background-color: #00ff00;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2em; /* Tamaño del título reducido */
+        margin-bottom: 10px;
+    }
+
+    .game-item {
+        padding: 10px;
+        margin: 10px 5px;
+        width: 100%;
+    }
+
+    .preview-image {
+        max-width: 60%; /* Más pequeña en dispositivos móviles */
+    }
+
+    .play-button {
+        font-size: 0.9em;
+        padding: 8px 16px;
+    }
 }
