@@ -7,7 +7,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Asegura que el contenido se mantenga dentro de la ventana */
+    height: 104vh; 
+    overflow: hidden;/* Asegura que el contenido se mantenga dentro de la ventana */
     margin: 0;
 }
 
@@ -175,12 +176,6 @@ body {
     gap: 10px; /* Espacio entre la flecha y la imagen */
 }
 
-/* Flecha que apunta directamente a la imagen */
-.spacebar-container .arrow {
-    font-size: 24px;
-    color: #4cffd7;
-    animation: bounce 1s infinite; /* Animación para que la flecha se mueva */
-}
 
 /* Imagen de la barra espaciadora */
 #spacebar-instruction {
@@ -201,14 +196,4 @@ body {
 .spacebar-text b {
     color: #4cffd7;
     font-size: 14px;
-}
-
-/* Animación para la flecha */
-@keyframes bounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
 }

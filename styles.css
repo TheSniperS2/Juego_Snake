@@ -2,7 +2,7 @@
 body {
     font-family: 'Press Start 2P', cursive;
     background-color: #000;
-    color: #fff;
+    color: #fffb00;
     text-align: center;
     margin: 0;
     padding: 0;
@@ -13,7 +13,7 @@ body {
     max-width: 90%;
     margin: 0 auto;
     padding: 20px;
-    border: 5px solid #fff;
+    border: 5px solid #ffcc00;
     background-color: #222;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
