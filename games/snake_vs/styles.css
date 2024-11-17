@@ -1,7 +1,7 @@
 /* Estilos globales */
 body {
     background-color: #222738;
-    font-family: "Equilibrium",monospace;
+    font-family: "Equilibrium", monospace;
     font-size: 16px;
     color: #6e7888;
     display: flex;
@@ -46,7 +46,6 @@ body {
     transform: rotate(-90deg);
     display: flex;
     justify-content: center;
-    
 }
 
 #replay {
@@ -61,6 +60,7 @@ body {
     letter-spacing: 0px; /* Espaciado de letras para mejor legibilidad */
     font-weight: bold; /* Texto más marcado */
 }
+
 #replay:hover {
     background: #36b8a5;
 }
@@ -73,11 +73,23 @@ body {
     flex-wrap: wrap; /* Ajusta los canvas si hay poco espacio */
 }
 
+.canvas-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Espacio entre el canvas y la imagen */
+}
+
 .game-canvas {
     background-color: #181825;
     border: 1px solid #000;
     width: 400px;
     height: 400px;
+}
+
+.controls-image {
+    width: 100px; /* Ajusta el tamaño según sea necesario */
+    height: auto;
 }
 
 /* Área de puntajes */
@@ -113,6 +125,7 @@ body {
     color: #4cffd7;
     font-family: 'Press Start 2P', monospace; /* Nueva fuente */
     text-transform: uppercase;
+    margin-top: 30px; /* Ajusta el espacio superior */
 }
 
 /* Estilos para el botón de retroceso */
@@ -138,4 +151,50 @@ body {
 
 #back:hover {
     background: #ff1a1a; /* Color al pasar el ratón */
+}
+
+/* Contenedor para la flecha e imagen */
+.spacebar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra la flecha y la imagen */
+    gap: 10px; /* Espacio entre la flecha y la imagen */
+}
+
+/* Flecha que apunta directamente a la imagen */
+.spacebar-container .arrow {
+    font-size: 24px;
+    color: #4cffd7;
+    animation: bounce 1s infinite; /* Animación para que la flecha se mueva */
+}
+
+/* Imagen de la barra espaciadora */
+#spacebar-instruction {
+    max-width: 300px;
+    height: auto;
+}
+
+/* Texto explicativo debajo del contenedor */
+.spacebar-text {
+    margin-top: 10px;
+    text-align: center;
+    color: #ffffff;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+}
+
+/* Resaltamos la palabra ESPACIO */
+.spacebar-text b {
+    color: #4cffd7;
+    font-size: 14px;
+}
+
+/* Animación para la flecha */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }

@@ -10,7 +10,7 @@
         integrity="sha384-G/ZR3ntz68JZrH4pfPJyRbjW+c0+ojii5f+GYiYwldYU69A+Ejat6yIfLSxljXxD"
         crossorigin="anonymous"></script>
     
-    <!-- Aquí carga la fuente desde Google Fonts -->
+    <!-- Cargar fuente desde Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
     <!-- CSS -->
@@ -19,9 +19,19 @@
 
 <body>
     <div class="container noselect">
-        <!-- Barra espaciadora -->
         <div class="top-center">
-            <img id="spacebar-instruction" src="images/spacebar.png" alt="Press Space to Start" />
+            <div class="spacebar-container">
+                <!-- Flecha -->
+                <div class="arrow">
+                    <i class="fas fa-arrow-down"></i>
+                </div>
+                <!-- Imagen de la barra espaciadora -->
+                <img id="spacebar-instruction" src="images/spacebar.png" alt="Press Space to Start" />
+            </div>
+            <!-- Texto debajo de la imagen -->
+            <div class="spacebar-text">
+                <span>Presiona</span> <b>ESPACIO</b> <span>para iniciar el juego</span>
+            </div>
         </div>
 
         <div class="main-content">
@@ -32,43 +42,53 @@
                 </button>
             </div>
             
-        <!-- Zona principal -->
-        <div class="main-content">
-            <!-- Botón de reinicio -->
-            <div class="restart-button">
-                <button id="replay">
-                    <i class="fas fa-play"></i> RESTART
-                </button>
-            </div>
+            <!-- Zona principal -->
+            <div class="main-content">
+                <!-- Botón de reinicio -->
+                <div class="restart-button">
+                    <button id="replay">
+                        <i class="fas fa-play"></i> RESTART
+                    </button>
+                </div>
 
-            <!-- Canvas de los juegos -->
-            <div class="game-area">
-                <canvas id="canvas1" class="game-canvas" width="400" height="400"></canvas>
-                <canvas id="canvas2" class="game-canvas" width="400" height="400"></canvas>
-            </div>
-
-            <!-- Puntajes -->
-            <div class="score-area">
-                <h1>SCORE</h1>
-                <div class="score-container">
-                    <div>
-                        <h2>Jugador 1</h2>
-                        <div id="score1">00</div>
+                <!-- Área de los juegos -->
+                <div class="game-area">
+                    <!-- Canvas del Jugador 1 -->
+                    <div class="canvas-container">
+                        <canvas id="canvas1" class="game-canvas" width="400" height="400"></canvas>
+                        <img src="images/wasd.png" alt="Controles WASD" class="controls-image">
                     </div>
-                    <div>
-                        <h2>Jugador 2</h2>
-                        <div id="score2">00</div>
+                    
+                    <!-- Canvas del Jugador 2 -->
+                    <div class="canvas-container">
+                        <canvas id="canvas2" class="game-canvas" width="400" height="400"></canvas>
+                        <img src="images/flechas.png" alt="Controles Flechas" class="controls-image">
+                    </div>
+                </div>
+
+                <!-- Puntajes -->
+                <div class="score-area">
+                    <h1>SCORE</h1>
+                    <div class="score-container">
+                        <div>
+                            <h2>Jugador 1</h2>
+                            <div id="score1">00</div>
+                        </div>
+                        <div>
+                            <h2>Jugador 2</h2>
+                            <div id="score2">00</div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Mensaje de fin de juego -->
-        <div id="gameOverMessage" style="display: none;">Game Over!</div>
+            <!-- Mensaje de fin de juego -->
+            <div id="gameOverMessage" style="display: none;">Game Over!</div>
 
-        <!-- Título -->
-        <div id="author">
-            <h1 class="title">SNAKE VS</h1>
+            <!-- Título -->
+            <div id="author">
+                <h1 class="title">SNAKE VS</h1>
+            </div>
         </div>
     </div>
 

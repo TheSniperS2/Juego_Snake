@@ -16,8 +16,20 @@
 
 <body>
     <div class="container noselect">
+        <!-- Contenedor principal para la flecha e imagen -->
         <div class="top-center">
-            <img id="spacebar-instruction" src="images/spacebar.png" alt="Press Space to Start" />
+            <div class="spacebar-container">
+                <!-- Flecha -->
+                <div class="arrow">
+                    <i class="fas fa-arrow-down"></i>
+                </div>
+                <!-- Imagen de la barra espaciadora -->
+                <img id="spacebar-instruction" src="images/spacebar.png" alt="Press Space to Start" />
+            </div>
+            <!-- Texto debajo de la imagen -->
+            <div class="spacebar-text">
+                <span>Presiona</span> <b>ESPACIO</b> <span>para iniciar el juego</span>
+            </div>
         </div>
 
         <div class="main-content">
@@ -34,8 +46,15 @@
                 </button>
             </div>
 
+            <!-- Canvas y controles -->
             <div class="game-area">
-                <canvas id="canvas" class="game-canvas" width="400" height="400"></canvas>
+                <div class="canvas-container">
+                    <canvas id="canvas" class="game-canvas" width="400" height="400"></canvas>
+                    <div class="controls-container">
+                        <img src="images/wasd.png" alt="Controles WASD" class="controls-image">
+                        <img src="images/flechas.png" alt="Controles Flechas" class="controls-image">
+                    </div>
+                </div>
             </div>
 
             <div class="score-area">

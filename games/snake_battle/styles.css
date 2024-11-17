@@ -73,11 +73,29 @@ body {
     flex-wrap: wrap; /* Ajusta el canvas si hay poco espacio */
 }
 
+.canvas-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Espacio entre el canvas y los controles */
+}
+
 .game-canvas {
     background-color: #181825;
     border: 1px solid #000;
     width: 700px;
     height: 700px;
+}
+
+.controls-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espacio entre las imágenes de controles */
+}
+
+.controls-image {
+    width: 100px;
+    height: auto;
 }
 
 /* Área de puntajes */
@@ -147,4 +165,50 @@ body {
 
 #back:hover {
     background: #ff1a1a; /* Color al pasar el ratón */
+}
+
+/* Contenedor para la flecha e imagen */
+.spacebar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra la flecha y la imagen */
+    gap: 10px; /* Espacio entre la flecha y la imagen */
+}
+
+/* Flecha que apunta directamente a la imagen */
+.spacebar-container .arrow {
+    font-size: 24px;
+    color: #4cffd7;
+    animation: bounce 1s infinite; /* Animación para que la flecha se mueva */
+}
+
+/* Imagen de la barra espaciadora */
+#spacebar-instruction {
+    max-width: 300px;
+    height: auto;
+}
+
+/* Texto explicativo debajo del contenedor */
+.spacebar-text {
+    margin-top: 10px;
+    text-align: center;
+    color: #ffffff;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+}
+
+/* Resaltamos la palabra ESPACIO */
+.spacebar-text b {
+    color: #4cffd7;
+    font-size: 14px;
+}
+
+/* Animación para la flecha */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
