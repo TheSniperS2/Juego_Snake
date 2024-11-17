@@ -291,6 +291,14 @@ function updateSnakes() {
         }
     });
 
+    // Nueva condición de victoria: verificar la diferencia de puntajes
+    if (Math.abs(score1 - score2) > 10) {
+        const winner = score1 > score2 ? 1 : 2;
+        alert(`¡Jugador ${winner} ha ganado por KO!`);
+        clearInterval(gameInterval); 
+        dom_replay.style.display = "block"; 
+    }
+
     if (gameOverCount === snakes.length) {
         alert("¡Es un empate! Ambos jugadores han colisionado.");
         clearInterval(gameInterval); 
@@ -302,7 +310,6 @@ function updateSnakes() {
         dom_replay.style.display = "block"; 
     }
 }
-
 // Verifica si el juego ha terminado
 function checkGameOver(snake, playerIndex) {
     let head = snake[0];
